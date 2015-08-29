@@ -386,6 +386,8 @@ let g:closetag_filenames = "*.handlebars,*.html,*.xhtml,*.phtml"
 
 let tern_show_signature_in_pum = 1
 
+ let g:tern#command = ["node", expand('<sfile>:h') . '/../node_modules/tern/bin/tern', '--persistent']
+
 " Find all refs for variable under cursor
 nmap <silent> <leader>tr :TernRefs<CR>
 
