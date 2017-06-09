@@ -112,6 +112,9 @@ if has("python") && isNpmInstalled
 \   }
 endif
 
+" Advanced features support for typescript editing
+NeoBundle 'Quramy/tsuquyomi'
+
 " Add smart commands for comments like:
 " gcc - Toggle comment for the current line
 " gc  - Toggle comments for selected region or number of strings
@@ -150,6 +153,12 @@ NeoBundle 'elzr/vim-json'
 " Syntax highlighting for .jsx (js files for react js)
 NeoBundle 'mxw/vim-jsx'
 
+" Syntax highlighting for mustache & handlebars
+NeoBundle 'mustache/vim-mustache-handlebars'
+
+" Syntax highlighting for typescript
+NeoBundle 'leafgarland/typescript-vim'
+
 " Add Support css3 property
 NeoBundle 'hail2u/vim-css3-syntax'
 
@@ -183,7 +192,16 @@ NeoBundle 'vim-airline/vim-airline-themes'
 NeoBundle 'othree/javascript-libraries-syntax.vim'
 
 " Code complete
-NeoBundle 'Shougo/neocomplcache.vim'
+" NeoBundle 'Shougo/neocomplcache.vim'
+
+NeoBundle 'Valloric/YouCompleteMe', {
+     \ 'build' : {
+     \     'mac' : './install.sh --clang-completer --system-libclang --omnisharp-completer',
+     \     'unix' : './install.sh --clang-completer --system-libclang --omnisharp-completer',
+     \     'windows' : './install.sh --clang-completer --system-libclang --omnisharp-completer',
+     \     'cygwin' : './install.sh --clang-completer --system-libclang --omnisharp-completer'
+     \    }
+     \ }
 
 " Most recent files source for unite
 NeoBundle 'Shougo/neomru.vim'
@@ -326,6 +344,7 @@ let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_filetype_map = { "json": "javascript", }
 
 let g:syntastic_javascript_checkers = ["jshint", "jscs"]
+let g:syntastic_typescript_checkers = ['tsuquyomi']
 
 " open quicfix window with all error found
 nmap <silent> <leader>ll :Errors<cr>
@@ -333,6 +352,11 @@ nmap <silent> <leader>ll :Errors<cr>
 nmap <silent> [ :lprev<cr>
 " next syntastic error
 nmap <silent> ] :lnext<cr>
+
+"-------------------------
+" Tsuquyomi
+
+let g:tsuquyomi_disable_quickfix = 1
 
 "-------------------------
 " Fugitive
@@ -443,54 +467,11 @@ let g:airline_section_y = ''
 " Don't display filetype
 let g:airline_section_x = ''
 
-"-------------------------
-" neocomplcache
-
-" Enable NeocomplCache at startup
-let g:neocomplcache_enable_at_startup = 1
-
-" Max items in code-complete
-let g:neocomplcache_max_list = 10
-
-" Max width of code-complete window
-let g:neocomplcache_max_keyword_width = 80
-
-" Code complete is ignoring case until no Uppercase letter is in input
-let g:neocomplcache_enable_smart_case = 1
-
-" Auto select first item in code-complete
-let g:neocomplcache_enable_auto_select = 1
-
-" Disable auto popup
-let g:neocomplcache_disable_auto_complete = 1
-
-" Smart tab Behavior
-function! CleverTab()
-    " If autocomplete window visible then select next item in there
-    if pumvisible()
-        return "\<C-n>"
-    endif
-    " If it's begining of the string then return just tab pressed
-    let substr = strpart(getline('.'), 0, col('.') - 1)
-    let substr = matchstr(substr, '[^ \t]*$')
-    if strlen(substr) == 0
-        " nothing to match on empty string
-        return "\<Tab>"
-    else
-        " If not begining of the string, and autocomplete popup is not visible
-        " Open this popup
-        return "\<C-x>\<C-u>"
-    endif
-endfunction
-inoremap <expr><TAB> CleverTab()
-
-" Undo autocomplete
-inoremap <expr><C-e> neocomplcache#undo_completion()
-
 " Enable omni completion.
 autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
 autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
 autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+autocmd FileType typescript setlocal omnifunc=typescriptcomlete#CompleteTS
 
 " For cursor moving in insert mode
 inoremap <expr><Left>  neocomplcache#close_popup() . "\<Left>"
