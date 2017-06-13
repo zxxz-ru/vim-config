@@ -44,6 +44,9 @@ endif
 " Let NeoNeoBundle manage NeoNeoBundle
 NeoBundle 'Shougo/neobundle.vim'
 
+" Add .editorconfig support
+NeoBundle 'editorconfig/editorconfig-vim'
+
 " Instlall vimrpoc. is uses by unite and neocomplcache
 " for async searches and calls
 NeoBundle 'Shougo/vimproc', {
@@ -64,11 +67,10 @@ NeoBundle 'vim-scripts/tlib'
 " and much more
 NeoBundle 'Shougo/unite.vim'
 
-" Snippets engine with good integration with neocomplcache
-NeoBundle 'Shougo/neosnippet'
-" Default snippets for neosnippet, i prefer vim-snippets
-"NeoBundle 'Shougo/neosnippet-snippets'
-" Default snippets
+" Snippet engine
+NeoBundle 'SirVer/ultisnips'
+
+" Snippets
 NeoBundle 'honza/vim-snippets'
 
 " Dirr diff
@@ -294,7 +296,11 @@ nnoremap <silent><leader>; :Unite file_rec/async:! -buffer-name=files -start-ins
 " Unite-grep
 nnoremap <silent><leader>/ :Unite grep:. -no-start-insert -no-quit -keep-focus -wrap<CR>
 
+"-------------------------
+" ultsnips
 
+let g:UltiSnipsExpandTrigger="<CR>"
+let g:UltiSnipsJumpForwardTrigger="<TAB>"
 
 "-------------------------
 " NERDTree
@@ -424,23 +430,6 @@ nmap <silent> <leader>tn :TernRename<CR>
 " let g:solarized_termtrans=1
 
 "-------------------------
-" neosnippets
-"
-
-" Enable snipMate compatibility
-let g:neosnippet#enable_snipmate_compatibility = 1
-
-" Tell Neosnippet about the other snippets
-let g:neosnippet#snippets_directory='~/.vim/bundle/vim-snippets/snippets'
-
-" Disables standart snippets. We use vim-snippets bundle instead
-let g:neosnippet#disable_runtime_snippets = { '_' : 1 }
-
-" Expand snippet and jimp to next snippet field on Enter key.
-imap <expr><CR> neosnippet#expandable_or_jumpable() ?
-\ "\<Plug>(neosnippet_expand_or_jump)" : "\<CR>"
-
-"-------------------------
 " vim-airline
 
 " Colorscheme for airline
@@ -475,6 +464,16 @@ autocmd FileType typescript setlocal omnifunc=typescriptcomlete#CompleteTS
 
 " disable preview in code complete
 set completeopt-=preview
+
+"-------------------------
+" YouCompleteMe
+
+let g:ycm_semantic_triggers = {
+    \   'css': [ 're!^\s{4}', 're!:\s+' ],
+    \   'less': [ 're!^\s{4}', 're!:\s+' ],
+    \ }
+
+
 
 "-------------------------
 " Arpeggio
@@ -758,6 +757,7 @@ if has("autocmd")
         " Auto reload vim after your cahange it
         au BufWritePost *.vim source $MYVIMRC | AirlineRefresh
         au BufWritePost .vimrc source $MYVIMRC | AirlineRefresh
+        au FileWritePost *.ts silent! !npm run compile > /dev/null
 
         " Restore cursor position :help last-position-jump
         au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$")
