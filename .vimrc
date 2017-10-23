@@ -76,6 +76,9 @@ NeoBundle 'honza/vim-snippets'
 " Dirr diff
 NeoBundle 'vim-scripts/DirDiff.vim'
 
+" Sorting function which support motions
+NeoBundle 'christoomey/vim-sort-motion'
+
 " Colorscheme solarazied for vim
 NeoBundle 'altercation/vim-colors-solarized'
 
@@ -299,8 +302,21 @@ nnoremap <silent><leader>/ :Unite grep:. -no-start-insert -no-quit -keep-focus -
 "-------------------------
 " ultsnips
 
-let g:UltiSnipsExpandTrigger="<CR>"
-let g:UltiSnipsJumpForwardTrigger="<TAB>"
+let g:UltiSnipsJumpForwardTrigger="<tab>"
+let g:UltiSnipsJumpBackwardTrigger="<S-tab>"
+let g:UltiSnipsExpandTrigger="<nop>"
+let g:ulti_expand_or_jump_res = 0
+
+" Smart snippet expanding on CR
+function! <SID>ExpandSnippetOrReturn()
+  let snippet = UltiSnips#ExpandSnippetOrJump()
+  if g:ulti_expand_or_jump_res > 0
+    return snippet
+  else
+    return "\<CR>"
+  endif
+endfunction
+inoremap <expr> <CR> pumvisible() ? "<C-R>=<SID>ExpandSnippetOrReturn()<CR>" : "\<CR>"
 
 "-------------------------
 " NERDTree
@@ -364,6 +380,14 @@ nmap <silent> ] :lnext<cr>
 
 let g:tsuquyomi_disable_quickfix = 1
 
+" Go to definition
+nmap <silent> <leader>td :TsuDefinition<cr>
+" Go to type definition
+vmap <silent> <leader>tdt :TsuTypeDefinition<cr>
+" find all references
+nmap <silent> <leader>tr :TsuReferences<cr>
+
+
 "-------------------------
 " Fugitive
 
@@ -418,10 +442,10 @@ let g:closetag_filenames = "*.handlebars,*.html,*.xhtml,*.phtml"
 let tern_show_signature_in_pum = 1
 
 " Find all refs for variable under cursor
-nmap <silent> <leader>tr :TernRefs<CR>
+" nmap <silent> <leader>tr :TernRefs<CR>
 
 " Smart variable rename
-nmap <silent> <leader>tn :TernRename<CR>
+" nmap <silent> <leader>tn :TernRename<CR>
 
 "-------------------------
 " Solarized
@@ -473,7 +497,8 @@ let g:ycm_semantic_triggers = {
     \   'less': [ 're!^\s{4}', 're!:\s+' ],
     \ }
 
-
+let g:ycm_key_list_select_completion=["<tab>"]
+let g:ycm_key_list_previous_completion=["<S-tab>"]
 
 "-------------------------
 " Arpeggio
