@@ -81,6 +81,7 @@ NeoBundle 'christoomey/vim-sort-motion'
 
 " Colorscheme solarazied for vim
 NeoBundle 'altercation/vim-colors-solarized'
+NeoBundle 'kristijanhusak/vim-hybrid-material'
 
 " Allow autoclose paired characters like [,] or (,),
 " and add smart cursor positioning inside it,
@@ -216,6 +217,8 @@ NeoBundle 'Shougo/neoyank.vim'
 
 " Plugin for chord mappings
 NeoBundle 'kana/vim-arpeggio'
+
+NeoBundle 'janko-m/vim-test'
 
 " JShint :)
 " But not necessary with syntastics
@@ -457,7 +460,7 @@ let tern_show_signature_in_pum = 1
 " vim-airline
 
 " Colorscheme for airline
-let g:airline_theme='understated'
+let g:airline_theme='solarized'
 
 " Set custom left separator
 let g:airline_left_sep = '▶'
@@ -505,6 +508,12 @@ let g:ycm_key_list_previous_completion=["<S-tab>"]
 
 " map jk to escape
 call arpeggio#map('i', '', 0, 'jk', '<ESC>')
+
+"-------------------------
+" vim-test
+
+nmap <silent> <leader>tf :TestFile<CR>
+
 
 "--------------------------------------------------
 " Colorscheme
@@ -764,6 +773,9 @@ nmap <silent><leader>to :tabnew .<CR>
 " Replace
 nmap <leader>s :%s//<left>
 vmap <leader>s :s//<left>
+
+" convert to json to js
+nmap <leader>jj :%s/\"\(\w*\)\"\:/\1\:/<CR>:%s/\"\(.*\)\"/\'\1\'/<CR>
 
 " Moving between splits
 nmap <leader>w <C-w>w
