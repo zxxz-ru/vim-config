@@ -401,8 +401,6 @@ nmap <silent> <leader>tn :TernRename<CR>
 
 "-------------------------
 " neosnippets
-"
-
 " Enable snipMate compatibility
 let g:neosnippet#enable_snipmate_compatibility = 1
 
