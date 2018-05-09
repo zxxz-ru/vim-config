@@ -15,6 +15,10 @@ Plugin 'VundleVim/Vundle.vim'
 "NERDtree plugin"
 Plugin 'scrooloose/nerdtree'
 Plugin 'Shougo/neosnippet'
+if !has('nvim')
+	Plugin 'roxma/nvim-yarp'
+	Plugin 'roxma/vim-hug-neovim-rpc'
+endif
 Plugin 'honza/vim-snippets'
 Plugin  'Raimondi/delimitMate'
 Plugin 'scrooloose/syntastic'
@@ -83,10 +87,17 @@ let g:neosnippet#snippets_directory='~/.vim/bundle/vim-snippets/snippets'
 
 " Disables standart snippets. We use vim-snippets bundle instead
 let g:neosnippet#disable_runtime_snippets = { '_' : 1 }
-
-" Expand snippet and jimp to next snippet field on Enter key.
-imap <expr><CR> neosnippet#expandable_or_jumpable() ?
-\ "\<Plug>(neosnippet_expand_or_jump)" : "\<CR>"
+" key mapings
+imap <C-k> <Plug>(neosnippet_expand_or_jump)
+smap <C-k> <Plug>(neosnippet_expand_or_jump)
+xmap <C-k> <Plug>(neosnippet_expand_target)
+imap <expr><TAB> pumvisible() ? "\<C-n>" :
+            \ neosnippet#expandable_or_jumpable() ?
+            \ <Plug>(neosnippet_expand_or_jump) : "\<TAB>"
+" For conceal markers.
+if has('conceal')
+    set conceallevel=2 concealcursor=niv
+endif
 " ======================================
 " ===========neocomplcash==============
 " Enable NeocomplCache at startup
@@ -107,24 +118,24 @@ let g:neocomplcache_enable_auto_select = 1
 " Disable auto popup
 let g:neocomplcache_disable_auto_complete = 1
 " Smart tab Behavior
-function! CleverTab()
-    " If autocomplete window visible then select next item in there
-    if pumvisible()
-        return "\<C-n>"
-    endif
-    " If it's begining of the string then return just tab pressed
-    let substr = strpart(getline('.'), 0, col('.') - 1)
-    let substr = matchstr(substr, '[^ \t]*$')
-    if strlen(substr) == 0
-        " nothing to match on empty string
-        return "\<Tab>"
-    else
-        " If not begining of the string, and autocomplete popup is not visible
-        " Open this popup
-        return "\<C-x>\<C-u>"
-    endif
-endfunction
-inoremap <expr><TAB> CleverTab()
+" function! CleverTab()
+"     " If autocomplete window visible then select next item in there
+"     if pumvisible()
+"         return "\<C-n>"
+"     endif
+"     " If it's begining of the string then return just tab pressed
+"     let substr = strpart(getline('.'), 0, col('.') - 1)
+"     let substr = matchstr(substr, '[^ \t]*$')
+"     if strlen(substr) == 0
+"         " nothing to match on empty string
+"         return "\<Tab>"
+"     else
+"         " If not begining of the string, and autocomplete popup is not visible
+"         " Open this popup
+"         return "\<C-x>\<C-u>"
+"     endif
+" endfunction
+" inoremap <expr><TAB> CleverTab()
 
 " Undo autocomplete
 inoremap <expr><C-e> neocomplcache#undo_completion()
@@ -135,10 +146,10 @@ autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
 autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
 
 " For cursor moving in insert mode
-inoremap <expr><Left>  neocomplcache#close_popup() . "\<Left>"
-inoremap <expr><Right> neocomplcache#close_popup() . "\<Right>"
-inoremap <expr><Up>    neocomplcache#close_popup() . "\<Up>"
-inoremap <expr><Down>  neocomplcache#close_popup() . "\<Down>"
+" inoremap <expr><Left>  neocomplcache#close_popup() . "\<Left>"
+" inoremap <expr><Right> neocomplcache#close_popup() . "\<Right>"
+" inoremap <expr><Up>    neocomplcache#close_popup() . "\<Up>"
+" inoremap <expr><Down>  neocomplcache#close_popup() . "\<Down>"
 
 " disable preview in code complete
 set completeopt-=preview
