@@ -1,15 +1,23 @@
-"vere goes Vundle Stuff as required
+"here goes Vundle Stuff as required
 set nocompatible              " be iMproved, required
 filetype off                  " required
 let isNpmInstalled = executable("npm")
-" default path for node-modules
+" Show message that npm is required {{{
+if isNpmInstalled ==# 0
+    echo "==============================================="
+    echo "=           INSTALL NPM !!!!                  ="
+    echo "==============================================="
+    echo ""
+endif
+" }}}
+" default path for node_modules
 let s:defaultNodeModules = '~/.vim/node_modules/.bin/'
 " set the runtime path to include Vundle and initialize
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 " alternatively, pass a path where Vundle should install plugins
 "call vundle#begin('~/some/path/here')
-
+" Vundle managed Plugins {{{
 " let Vundle manage Vundle, required
 Plugin 'VundleVim/Vundle.vim'
 "NERDtree plugin"
@@ -55,36 +63,34 @@ Plugin 'Shougo/neocomplcache.vim'
 " !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 " All of your Plugins must be added before the following line
 "
+" }}}
 call vundle#end()            " required
 filetype plugin indent on    " required
 " To ignore plugin indent changes, instead use:
 "filetype plugin on
 "
-" Brief help
+" Brief Vundle help {{{
 " :PluginList       - lists configured plugins
-" :PluginInstall    - installs plugins; append `!` to update or just :PluginUpdate
+" :PluginInstall    - installs plugins;
+" :PluginInstall! to update or just :PluginUpdate
 " :PluginSearch foo - searches for foo; append `!` to refresh local cache
-" :PluginClean      - confirms removal of unused plugins; append `!` to auto-approve removal
+" :PluginClean - confirms removal of unused plugins;
+" :PluginClean! to auto-approve removal
 "
 " see :h vundle for more details or wiki for FAQ
-"Put your non-Plugin stuff after this line
-"================END OF VUNDLE==================="
+" }}}
 
 "================Plugin Settings=================
-"================================================
-" DelimitMate settings
-" ===============================================
+" delimitMate settings {{{
 let delimitMate_expand_cr = 1
 let delimitMate_expand_space = 1
 let loaded_delimitMate = 1
-"================================================
-" ============neosnippets===============
+" }}}
+" neosnippets settings {{{
 " Enable snipMate compatibility
 let g:neosnippet#enable_snipmate_compatibility = 1
-
 " Tell Neosnippet about the other snippets
 let g:neosnippet#snippets_directory='~/.vim/bundle/vim-snippets/snippets'
-
 " Disables standart snippets. We use vim-snippets bundle instead
 let g:neosnippet#disable_runtime_snippets = { '_' : 1 }
 " key mapings
@@ -98,8 +104,8 @@ imap <expr><TAB> pumvisible() ? "\<C-n>" :
 if has('conceal')
     set conceallevel=2 concealcursor=niv
 endif
-" ======================================
-" ===========neocomplcash==============
+" }}}
+" neocomplcash settings {{{
 " Enable NeocomplCache at startup
 let g:neocomplcache_enable_at_startup = 1
 
@@ -153,14 +159,22 @@ autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
 
 " disable preview in code complete
 set completeopt-=preview
-" end neocomplcache========================
-" ===========vim-closetag===============
+" }}}
+" vim-closeta {{{
 " Enable for files with this extensions
 let g:closetag_filenames = "*.handlebars,*.html,*.xhtml,*.phtml"
-"=======================================
-" ============syntastic=================
+" }}}
+" syntastic {{{
 " Install jshint and csslint for syntastic
 " Path to jshint if it not installed, then use local installation
+" TODO change to node_modules that used in system and make syntastic
+" use eslint jhint make it pain! do not like it at all! find how to use
+" syntastic with vue. Do make absolute minimum installation list of npm
+" modules that are required to lint, check whatever needed for correct
+" workflow with vim. ESLint, csslint, vue-eslint. React/Redux may require
+" some linting as well. Make function to find where are global npm is about 
+" to be installed.
+"
 if isNpmInstalled
     if !executable(expand(s:defaultNodeModules . 'jshint'))
         silent ! echo 'Installing jshint' && npm --prefix ~/.vim/ install jshint
@@ -210,16 +224,7 @@ nmap <silent> <leader>ll :Errors<cr>
 nmap <silent> [ :lprev<cr>
 " next syntastic error
 nmap <silent> ] :lnext<cr>
-" end syntastic=====================================
-set ruler
-"set syntax hilighting.
-syntax enable
-
-"use custom color sheme
-colorscheme dele
-
-" Use system clipboard
-set clipboard=unnamedplus
+" }}}
 
 " Customize the wildmenu
 set wildmenu
@@ -246,14 +251,14 @@ set matchtime=0         " don't blink when matching
 " TODO fix FileTypes see what else I use.
 augroup vimrc_autocmds
     autocmd!
-    autocmd FileType ruby,python,javascript,c,cpp,go highlight Excess ctermbg=DarkGrey guibg=#c12a0f
-    autocmd FileType ruby,python,javascript,c,cpp,go  match Excess /\%80v.*/
+    autocmd FileType ruby,python,javascript,c,cpp,go
+    \ highlight Excess ctermbg=DarkGrey guibg=#c12a0f
+    autocmd FileType ruby,python,javascript,c,cpp,go
+    \ match Excess /\%80v.*/
     autocmd FileType ruby,python,javascript,json,c,cpp,go  set nowrap       
 augroup END
 
-"=====================================================
-" User hotkeys
-"=====================================================
+" User hotkeys {{{
 " Easier moving of code blocks
 vnoremap < <gv " Shift+> keys
 vnoremap > >gv " Shift+< keys
@@ -307,6 +312,7 @@ nnoremap <F12> :call InsertUUID4()<CR>
 
 " nohls on Enter save me cleaning the screen
 nnoremap <silent><cr> :nohlsearch<cr><cr> k
+" }}}
 
 " Python code check on PEP8
 autocmd FileType python map <buffer> <leader>8 :PymodeLint<CR>
@@ -356,6 +362,16 @@ autocmd FileType go :iabbr fori for i := 0; i < ; i++ {<CR><CR>}<esc>3k7wi
 autocmd BufWritePost *.go !gofmt -w %
 "==============end of Golang======================
 " ===============GENERAL SETTINGS=================
+" {{{
+set ruler
+"set syntax hilighting.
+syntax enable
+
+"use custom color sheme
+colorscheme dele
+
+" Use system clipboard
+set clipboard=unnamedplus
 " disable annoying prompt on initial bundle install
 set nomore
 " Set character encoding to use in vim
@@ -374,7 +390,8 @@ set smartindent
 " Replace tabs with spaces
 set expandtab
 
-" Whe you hit tab at start of line, indent added according to shiftwidth value
+" Whe you hit tab at start of line, indent added according to
+" shiftwidth value
 set smarttab
 
 " number of spaces to use for each step of indent
@@ -440,9 +457,18 @@ set noeol
         au FileType html let b:loaded_delimitMate = 1
         au FileType handlebars let b:loaded_delimitMate = 1
 
-" end of general settings========================
-"
-"================EDIT AND SOURCE VIMRC===========
+" }}}
+
+" edit and source vimrc {{{
 let mapleader="~"
 nnoremap <leader>ev :sp $MYVIMRC<cr>
 nnoremap <leader>rv :source $MYVIMRC<cr>
+" }}}
+
+" set fold method for vim files and close them all {{{
+augroup filetype_vim
+    au!
+    autocmd FileType vim setlocal foldmethod=marker
+    autocmd FileType vim execute "normal! zM"
+augroup END
+" }}}
