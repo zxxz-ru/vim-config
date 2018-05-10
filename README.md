@@ -1,18 +1,19 @@
+### Work is progress this README is not relevant.
 ### Vim config for web development
 
-<img src="http://i.imgur.com/ElOEHZ3.png"/>
+<!--img src="http://i.imgur.com/ElOEHZ3.png"/-->
 
 ### Features
 * Only one file, you don't need to run any installation script.
-* Integration with Git.
-* Integration with grep/ack.
+* Integration with Git. (removed)
+* Integration with grep/ack. (removed)
 * Automatic syntax and codestyle checks.
 * Smart autocomplete.
 * Tweeks for easier navigation.
 * Snippets.
 * Fully documented.
 * Optimized for web development.
-* Quick Tab navigation, recent files list, fuzzy search, and other (see the full list of features).
+* Quick Tab navigation, recent files list, fuzzy search, and other (see the full list of features). (removed)
 
 ### Hotkeys
 In Vim there is the `leader` key, which is by default `\` , but you can change it in any
@@ -56,7 +57,7 @@ Move between splits                                       | `leader w`
 ESC                                                       | `j+k (simultaneously)`
 Quick tab navigation                                      | `leader '`
 
-### Color scheme
+### Color dele
 
 I use color scheme “Solarized”, the light version is enabled by default.
 If you want the dark one, you have to change the following lines:
