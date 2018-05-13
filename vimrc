@@ -97,9 +97,10 @@ let g:neosnippet#disable_runtime_snippets = { '_' : 1 }
 imap <C-k> <Plug>(neosnippet_expand_or_jump)
 smap <C-k> <Plug>(neosnippet_expand_or_jump)
 xmap <C-k> <Plug>(neosnippet_expand_target)
-imap <expr><TAB> pumvisible() ? "\<C-n>" :
-            \ neosnippet#expandable_or_jumpable() ?
-            \ <Plug>(neosnippet_expand_or_jump) : "\<TAB>"
+" not working properly
+" imap <expr><TAB> pumvisible() ? "\<C-n>" :
+"             \ neosnippet#expandable_or_jumpable() ?
+"             \ <Plug>(neosnippet_expand_or_jump) : "\<TAB>"
 " For conceal markers.
 if has('conceal')
     set conceallevel=2 concealcursor=niv
@@ -201,12 +202,16 @@ function! s:FindSyntasticExecPath(toolName)
 
 endfunction
 
+
 " setting up jshint csslint and jscs if available
-let g:syntastic_javascript_jshint_exec = s:FindSyntasticExecPath('jshint')
+" disable jshint
+" let g:syntastic_javascript_jshint_exec = s:FindSyntasticExecPath('jshint')
+let g:syntastic_javascript_eslint_exec = s:FindSyntasticExecPath('eslint')
 let g:syntastic_javascript_jscs_exec = s:FindSyntasticExecPath('jscs')
 let g:syntastic_css_csslint_exec= s:FindSyntasticExecPath('csslint')
 
 " Enable autochecks
+let g:syntastic_check_on_wq=1
 let g:syntastic_check_on_open=1
 let g:syntastic_enable_signs=1
 
@@ -215,9 +220,9 @@ let g:syntastic_always_populate_loc_list = 1
 
 " check json files with jshint
 let g:syntastic_filetype_map = { "json": "javascript", }
-
-let g:syntastic_javascript_checkers = ["jshint", "jscs"]
-
+" use eslint instead of jshint
+let g:syntastic_javascript_checkers = ["eslint", "jscs"] 
+" let g:syntastic_javascript_checkers = ["jshint", "jscs"] 
 " open quicfix window with all error found
 nmap <silent> <leader>ll :Errors<cr>
 " previous syntastic error
@@ -395,14 +400,14 @@ set expandtab
 set smarttab
 
 " number of spaces to use for each step of indent
-set shiftwidth=4
+set shiftwidth=2
 
 " Number of spaces that a Tab in the file counts for
-set tabstop=4
+set tabstop=2
 
 " Same but for editing operation (not shure what exactly does it means)
 " but in most cases tabstop and softtabstop better be the same
-set softtabstop=4
+set softtabstop=2
 
 " Round indent to multiple of 'shiftwidth'.
 " Indentation always be multiple of shiftwidth
