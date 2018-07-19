@@ -372,8 +372,10 @@ set ruler
 "set syntax hilighting.
 syntax enable
 
-"use custom color sheme
-colorscheme dele
+"use custom color sheme to start must first
+" clone repesitory https://github.com/rafi/awesome-vim-colorschemes.git
+" cp -r colors ~/.vim
+  colorscheme apprentice
 
 " Use system clipboard
 set clipboard=unnamedplus
