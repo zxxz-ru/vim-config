@@ -59,6 +59,8 @@ Plugin 'vim-scripts/tlib'
 Plugin 'othree/javascript-libraries-syntax.vim'
 " Code complete
 Plugin 'Shougo/neocomplcache.vim'
+"add typescript support
+Plugin 'leafgarland/typescript-vim'
 
 " !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 " All of your Plugins must be added before the following line
@@ -149,7 +151,7 @@ inoremap <expr><C-e> neocomplcache#undo_completion()
 
 " Enable omni completion.
 autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
-autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+autocmd FileType markdown setlocal omnifunc=htmlcomplete#CompleteTags
 autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
 
 " For cursor moving in insert mode
@@ -183,6 +185,9 @@ if isNpmInstalled
     if !executable(expand(s:defaultNodeModules . 'csslint'))
         silent ! echo 'Installing csslint' && npm --prefix ~/.vim/ install csslint
     endif
+    if !executable(expand(s:defaultNodeModules . 'tslint'))
+        silent ! echo 'Installing tslint' && npm --prefix ~/.vim/ install tslint
+    endif
 endif
 
 function! s:FindSyntasticExecPath(toolName)
@@ -209,6 +214,7 @@ endfunction
 let g:syntastic_javascript_eslint_exec = s:FindSyntasticExecPath('eslint')
 let g:syntastic_javascript_jscs_exec = s:FindSyntasticExecPath('jscs')
 let g:syntastic_css_csslint_exec= s:FindSyntasticExecPath('csslint')
+let g:syntastic_typescript_tslint_exec = s:FindSyntasticExecPath('tslint')
 
 " Enable autochecks
 let g:syntastic_check_on_wq=1
@@ -256,11 +262,11 @@ set matchtime=0         " don't blink when matching
 " TODO fix FileTypes see what else I use.
 augroup vimrc_autocmds
     autocmd!
-    autocmd FileType ruby,python,javascript,c,cpp,go
+    autocmd FileType ruby,python,javascript,c,cpp,go,ts
     \ highlight Excess ctermbg=DarkGrey guibg=#c12a0f
-    autocmd FileType ruby,python,javascript,c,cpp,go
+    autocmd FileType ruby,python,javascript,c,cpp,go,ts
     \ match Excess /\%80v.*/
-    autocmd FileType ruby,python,javascript,json,c,cpp,go  set nowrap       
+    autocmd FileType ruby,python,javascript,json,c,cpp,go,ts  set nowrap       
 augroup END
 
 " User hotkeys {{{
