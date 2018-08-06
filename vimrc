@@ -400,6 +400,9 @@ set autoindent
 " Enable smart indent. it add additional indents whe necessary
 set smartindent
 
+" Add cindent
+set cindent
+
 " Replace tabs with spaces
 set expandtab
 
