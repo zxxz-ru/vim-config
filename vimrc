@@ -1,4 +1,6 @@
 "here goes Vundle Stuff as required
+" map leader
+let mapleader="~"
 set nocompatible              " be iMproved, required
 filetype off                  " required
 let isNpmInstalled = executable("npm")
@@ -310,8 +312,10 @@ nnoremap <C-l> <C-w><C-l>
 nnoremap <C-h> <C-w><C-h>
 
 " Easier change size for splitted windows
-nnoremap <M-[> :vertical resize +5<cr>
-nnoremap <M-]> :vertical resize -5<cr>
+nnoremap ==  5<C-W>+ " double = add 5 rows
+nnoremap -- 5<C-W>- " double - shrink window by 5 lines
+nnoremap << 5<C-W>< " shrink splitted window to the left by 5
+nnoremap >> 5<C-W>> " add splitted window
 
 " Close open window
 nnoremap <F4> :close<CR>
@@ -345,6 +349,8 @@ inoremap <leader>[ []<esc>i
 ""inoremap <leader>[ []<esc>i
 inoremap <leader>'' ""<esc>i
 inoremap <leader>' ''<esc>i
+" javascript & typescript iabbrevs
+autocmd FileType javascript, typescript :iabbrev log console.log('');<esc>2hi
 " Java iabbrevs"
 autocmd FileType java :iabbrev prt System.out.println("");<esc>2hi
 autocmd FileType java :iabbr psvm public static void main(String[] args){<CR>}<esc>O
@@ -365,7 +371,6 @@ abbr slept try {<CR> Thread.sleep();<CR>}<esc>hxA catch(Exception ex) {<CR> ex.p
 autocmd FileType java set tags=~/.vim/tags/java/tags
 autocmd FileType java setlocal omnifunc=javacomplete#Complete
 autocmd FileType java setlocal completefunc=javacomplete#CompleteParamsInfo 
-"set tags=./tags
 
 "=================Golang==========================
 "autocmd to run goimports on each saving of go file.
@@ -429,6 +434,8 @@ set wildmenu
 " Autocmpletion hotkey
 set wildcharm=<TAB>
 
+" Go to Defenition ctags tags
+set tags=./tags,tags;
 "--------------------------------------------------
 " Folding
 
@@ -473,7 +480,6 @@ set noeol
 " }}}
 
 " edit and source vimrc {{{
-let mapleader="~"
 nnoremap <leader>ev :sp $MYVIMRC<cr>
 nnoremap <leader>rv :source $MYVIMRC<cr>
 " }}}
